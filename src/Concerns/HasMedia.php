@@ -4,6 +4,7 @@ namespace Hugomyb\FilamentMediaAction\Concerns;
 
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 
 trait HasMedia
 {
@@ -41,7 +42,9 @@ trait HasMedia
 
     public function getMediaUrl(): ?string
     {
-        return $this->evaluate($this->mediaUrl);
+        return $this->evaluate($this->mediaUrl, [
+            'record' => $this->getRecordInstance()
+        ]);
     }
 
     protected function detectMediaType(): string
@@ -83,5 +86,13 @@ trait HasMedia
             'mediaType' => $this->mediaType,
             'mediaUrl' => $this->getMediaUrl(),
         ]);
+    }
+
+    private function getRecordInstance(): ?Model {
+        if(method_exists($this, 'getRecord') && $this->getRecord()) {
+            return $this->getRecord() ? $this->getRecord() : null;
+        } else {
+            return null;
+        }
     }
 }
