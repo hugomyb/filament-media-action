@@ -33,14 +33,15 @@ trait HasMedia
         });
     }
 
-    public function mediaUrl(string|\Closure|null $mediaUrl): static
+
+    public function media(string|\Closure|null $url): static
     {
-        $this->mediaUrl = $mediaUrl;
+        $this->mediaUrl = $url;
 
         return $this;
     }
 
-    public function getMediaUrl(): ?string
+    public function getMedia(): ?string
     {
         return $this->evaluate($this->mediaUrl, [
             'record' => $this->getRecordInstance()
@@ -49,7 +50,7 @@ trait HasMedia
 
     protected function detectMediaType(): string
     {
-        return $this->getMediaType($this->getMediaUrl());
+        return $this->getMediaType($this->getMedia());
     }
 
     protected function getMediaType(string $url): string
@@ -84,12 +85,13 @@ trait HasMedia
 
         return view('filament-media-action::actions.media-modal-content', [
             'mediaType' => $this->mediaType,
-            'mediaUrl' => $this->getMediaUrl(),
+            'mediaUrl' => $this->getMedia(),
         ]);
     }
 
-    private function getRecordInstance(): ?Model {
-        if(method_exists($this, 'getRecord') && $this->getRecord()) {
+    private function getRecordInstance(): ?Model
+    {
+        if (method_exists($this, 'getRecord') && $this->getRecord()) {
             return $this->getRecord() ? $this->getRecord() : null;
         } else {
             return null;
