@@ -1,13 +1,22 @@
-# Automatically display your media (video, audio, document, image, ...) with an action
+# ▶️ Filament Media Action
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/hugomyb/filament-media-action.svg?style=flat-square)](https://packagist.org/packages/hugomyb/filament-media-action)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/hugomyb/filament-media-action/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/hugomyb/filament-media-action/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/hugomyb/filament-media-action/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/hugomyb/filament-media-action/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/hugomyb/filament-media-action.svg?style=flat-square)](https://packagist.org/packages/hugomyb/filament-media-action)
 
 
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Automatically display your media (video, audio, pdf, image, ...) with an action in Filament.
+The package automatically detects the media extension to display the correct player.
+
+## Examples
+
+![example1](docs/example1.png)
+![example2](docs/example2.png)
+![example3](docs/example3.png)
+![example4](docs/example4.png)
+![example5](docs/example5.png)
+![example6](docs/example6.png)
+![example7](docs/example7.png)
 
 ## Installation
 
@@ -17,44 +26,84 @@ You can install the package via composer:
 composer require hugomyb/filament-media-action
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="filament-media-action-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="filament-media-action-config"
-```
-
-Optionally, you can publish the views using
+Optionally, you can publish the view using
 
 ```bash
 php artisan vendor:publish --tag="filament-media-action-views"
 ```
 
-This is the contents of the published config file:
+Optionally, you can publish the translations using
 
-```php
-return [
-];
+```bash
+php artisan vendor:publish --tag="filament-media-action-translations"
 ```
 
 ## Usage
 
+### Basic Usage
+
+Like a classic Filament Action, you can use MediaAction anywhere (Forms, Tables, Infolists, Suffix and prefix, ...).
+
+Simply provide the url of your media in the `->media()` method. The package will then automatically detect your media extension for display.
 ```php
-$filamentMediaAction = new Hugomyb\FilamentMediaAction();
-echo $filamentMediaAction->echoPhrase('Hello, Hugomyb!');
+MediaAction::make('tutorial')
+    ->iconButton()
+    ->icon('heroicon-o-video-camera')
+    ->media('https://www.youtube.com/watch?v=rN9XI9KCz0c&list=PL6tf8fRbavl3jfL67gVOE9rF0jG5bNTMi')
 ```
 
-## Testing
+### Available options
+
+You can customize the modal as you wish in the same way as a classic action (see https://filamentphp.com/docs/3.x/actions/modals).
+
+If there is an existing record, you can access it by passing a closure to `->media()` method.
+
+Example :
+```php
+MediaAction::make('media-url')
+    ->modalHeading(fn($record) => $record->name)
+    ->modalFooterActionsAlignment(Alignment::Center)
+    ->media(fn($record) => $record->url)
+    ->extraModalFooterActions([
+        MediaAction::make('media-video2')
+            ->media('https://www.youtube.com/watch?v=9GBXqWKzfIM&list=PL6tf8fRbavl3jfL67gVOE9rF0jG5bNTMi&index=3')
+            ->extraModalFooterActions([
+                MediaAction::make('media-video3')
+                    ->media('https://www.youtube.com/watch?v=Bvb_vqzhRQs&list=PL6tf8fRbavl3jfL67gVOE9rF0jG5bNTMi&index=5')
+            ]),
+
+        Tables\Actions\Action::make('open-url')
+            ->label('Open in browser')
+            ->url(fn($record) => $record->url)
+            ->openUrlInNewTab()
+            ->icon('heroicon-o-globe-alt')
+    ])
+```
+
+As shown in the example above, you can chain MediaActions together with `->extraModalFooterActions()` method.
+
+## Customizing the modal view
+
+You can customize the modal view by publishing the view using :
 
 ```bash
-composer test
+php artisan vendor:publish --tag="filament-media-action-views"
 ```
+
+Then, in the view, you can access : 
+- `$mediaType`: To retrieve the type of your media, which can be “youtube”, “audio”, “video”, “image” or “pdf”.
+- `$media` : To retrieve the url of your media
+
+
+## Supported media extensions
+
+| Type      | Extensions           |
+|-----------|----------------------|
+| Video     | mp4, avi, mov, webm  |
+| Audio     | mp3, wav, ogg, aac   |
+| Documents | pdf                  |
+| Image     | jpg, jpeg, png, gif, bmp, svg, webp |
+
 
 ## Changelog
 
