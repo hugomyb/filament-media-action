@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 trait HasMedia
 {
 
-    public \Closure|string|null $mediaUrl;
+    public \Closure|string|null $media;
 
-    public string $mediaType;
+    public ?string $mediaType;
 
     public static function getDefaultName(): ?string
     {
@@ -36,14 +36,14 @@ trait HasMedia
 
     public function media(string|\Closure|null $url): static
     {
-        $this->mediaUrl = $url;
+        $this->media = $url;
 
         return $this;
     }
 
     public function getMedia(): ?string
     {
-        return $this->evaluate($this->mediaUrl, [
+        return $this->evaluate($this->media, [
             'record' => $this->getRecordInstance()
         ]);
     }
@@ -64,7 +64,7 @@ trait HasMedia
         $extension = strtolower($pathInfo['extension'] ?? '');
 
         $mediaTypes = [
-            'audio' => ['mp3', 'wav', 'ogg'],
+            'audio' => ['mp3', 'wav', 'ogg', 'aac'],
             'video' => ['mp4', 'avi', 'mov', 'webm'],
             'image' => ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'],
             'pdf' => ['pdf'],
@@ -85,7 +85,7 @@ trait HasMedia
 
         return view('filament-media-action::actions.media-modal-content', [
             'mediaType' => $this->mediaType,
-            'mediaUrl' => $this->getMedia(),
+            'media' => $this->getMedia(),
         ]);
     }
 

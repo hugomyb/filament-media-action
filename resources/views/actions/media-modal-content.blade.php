@@ -1,43 +1,77 @@
-<div class="w-full flex flex-col justify-center items-center h-full" style="min-height: 480px">
+<div x-data="{
+            loading: true,
 
-    @if ($mediaType === 'youtube')
-        @php
-            // Extract the YouTube video ID from the URL
-            $queryString = parse_url($mediaUrl, PHP_URL_QUERY);
-            parse_str($queryString, $queryParams);
-            $youtubeId = $queryParams['v'] ?? '';
-        @endphp
+            init() {
+                let mediaElement = this.$refs.mediaFrame;
+                if (mediaElement) {
+                    mediaElement.onload = () => {
+                        this.loading = false;
+                    };
+                    mediaElement.oncanplaythrough = () => {
+                        this.loading = false;
+                    };
+                    mediaElement.onloadstart = () => {
+                        this.loading = true;
+                    };
+                    mediaElement.onerror = () => {
+                        this.loading = false;
+                    };
+                } else {
+                    this.loading = false;
+                }
+            }
+        }"
+>
 
-        @if ($youtubeId)
-            <iframe class="rounded-lg" width="100%" height="100%" src="https://www.youtube.com/embed/{{ $youtubeId }}" frameborder="0"
-                    allowfullscreen></iframe>
+    <template x-if="loading">
+        <div class="flex h-full flex-col justify-center items-center">
+            <x-filament::loading-indicator class="h-10 w-10" />
+            <span class="text-center font-bold">{{ __('filament-media-action::media-action.loading') }}</span>
+        </div>
+    </template>
+
+    <div class="mediaContainer w-full flex flex-col justify-center items-center h-full" x-show="!loading">
+        @if ($mediaType === 'youtube')
+            @php
+                // Extract the YouTube video ID from the URL
+                $queryString = parse_url($media, PHP_URL_QUERY);
+                parse_str($queryString, $queryParams);
+                $youtubeId = $queryParams['v'] ?? '';
+            @endphp
+
+            @if ($youtubeId)
+                <iframe x-ref="mediaFrame" class="rounded-lg" width="100%" src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                        frameborder="0"
+                        style="aspect-ratio: 16 / 9;"
+                        allowfullscreen></iframe>
+            @else
+                <p>Invalid YouTube URL.</p>
+            @endif
+
+        @elseif ($mediaType === 'audio')
+
+            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls>
+                <source src="{{ $media }}" type="audio/{{ pathinfo($media, PATHINFO_EXTENSION) }}">
+                Your browser does not support the audio element.
+            </audio>
+
+        @elseif ($mediaType === 'video')
+
+            <video x-ref="mediaFrame" class="rounded-lg" width="100%" style="aspect-ratio: 16 / 9;" controls>
+                <source src="{{ $media }}" type="video/{{ pathinfo($media, PATHINFO_EXTENSION) }}">
+                Your browser does not support the video tag.
+            </video>
+
+        @elseif ($mediaType === 'image')
+
+            <img x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" alt="Media Image" style="max-width: 100%; height: auto;" @load="loading = false">
+
+        @elseif ($mediaType === 'pdf')
+
+            <embed x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" type="application/pdf" width="100%" height="600" @load="loading = false">
+
         @else
-            <p>Invalid YouTube URL.</p>
+            <p>Unsupported media type.</p>
         @endif
-
-    @elseif ($mediaType === 'audio')
-
-        <audio class="rounded-lg" controls>
-            <source src="{{ $mediaUrl }}" type="audio/{{ pathinfo($mediaUrl, PATHINFO_EXTENSION) }}">
-            Your browser does not support the audio element.
-        </audio>
-
-    @elseif ($mediaType === 'video')
-
-        <video class="rounded-lg" width="100%" height="480" controls>
-            <source src="{{ $mediaUrl }}" type="video/{{ pathinfo($mediaUrl, PATHINFO_EXTENSION) }}">
-            Your browser does not support the video tag.
-        </video>
-
-    @elseif ($mediaType === 'image')
-
-        <img class="rounded-lg" src="{{ $mediaUrl }}" alt="Media Image" style="max-width: 100%; height: auto;">
-
-    @elseif ($mediaType === 'pdf')
-
-        <embed class="rounded-lg" src="{{ $mediaUrl }}" type="application/pdf" width="100%" height="500">
-
-    @else
-        <p>Unsupported media type.</p>
-    @endif
+    </div>
 </div>
