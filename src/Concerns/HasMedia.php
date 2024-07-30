@@ -53,7 +53,7 @@ trait HasMedia
         return $this->getMediaType($this->getMedia());
     }
 
-    protected function getMediaType(string $url): string
+    protected function getMediaType(?string $url): ?string
     {
         // Check if the URL is a YouTube link
         if (preg_match('/(youtube\.com|youtu\.be)/', $url)) {

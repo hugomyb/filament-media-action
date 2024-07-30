@@ -40,7 +40,8 @@
             @endphp
 
             @if ($youtubeId)
-                <iframe x-ref="mediaFrame" class="rounded-lg" width="100%" src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                <iframe x-ref="mediaFrame" class="rounded-lg" width="100%"
+                        src="https://www.youtube.com/embed/{{ $youtubeId }}"
                         frameborder="0"
                         style="aspect-ratio: 16 / 9;"
                         allowfullscreen></iframe>
@@ -64,11 +65,13 @@
 
         @elseif ($mediaType === 'image')
 
-            <img x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" alt="Media Image" style="max-width: 100%; height: auto;" @load="loading = false">
+            <img x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" alt="Media Image"
+                 style="max-width: 100%; height: auto;" @load="loading = false">
 
         @elseif ($mediaType === 'pdf')
 
-            <embed x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" type="application/pdf" width="100%" height="600" @load="loading = false">
+            <embed x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" type="application/pdf" width="100%"
+                   height="600" @load="loading = false">
 
         @else
             <p>Unsupported media type.</p>
