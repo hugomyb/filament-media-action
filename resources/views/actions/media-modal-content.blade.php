@@ -75,8 +75,8 @@
 
         @elseif ($mediaType === 'pdf')
 
-            <iframe x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" type="application/pdf" width="100%"
-                    height="2000" @load="loading = false"></iframe>
+            <embed x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" type="application/pdf" width="100%"
+                   height="600" @load="loading = false">
 
         @else
             <p>Unsupported media type.</p>
