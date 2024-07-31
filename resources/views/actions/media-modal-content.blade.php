@@ -77,8 +77,8 @@
 
         @elseif ($mediaType === 'pdf')
 
-            <iframe x-ref="mediaFrame" class="rounded-lg"
-                    src="https://docs.google.com/gview?url={{ $media }}&embedded=true" width="100%" height="600"
+            <iframe x-ref="mediaFrame" class="rounded-lg" style="min-height: 600px"
+                    src="https://docs.google.com/gview?url={{ $media }}&embedded=true" width="100%" height="100%"
                     @load="loading = false"></iframe>
 
         @else
