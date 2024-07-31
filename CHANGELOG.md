@@ -2,6 +2,12 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.0.2 - 2024-07-31
+
+### Fix :
+
+- Use google viewer to preview PDFs
+
 ## v3.1.0.1 - 2024-07-31
 
 Fixes :
