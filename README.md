@@ -10,13 +10,13 @@ The package automatically detects the media extension to display the correct pla
 
 ## Examples
 
-![example1](docs/example1.png)
-![example2](docs/example2.png)
-![example3](docs/example3.png)
-![example4](docs/example4.png)
-![example5](docs/example5.png)
-![example6](docs/example6.png)
-![example7](docs/example7.png)
+![example1](https://raw.githubusercontent.com/hugomyb/filament-media-action/main/docs/example1.png)
+![example2](https://raw.githubusercontent.com/hugomyb/filament-media-action/main/docs/example2.png)
+![example3](https://raw.githubusercontent.com/hugomyb/filament-media-action/main/docs/example3.png)
+![example4](https://raw.githubusercontent.com/hugomyb/filament-media-action/main/docs/example4.png)
+![example5](https://raw.githubusercontent.com/hugomyb/filament-media-action/main/docs/example5.png)
+![example6](https://raw.githubusercontent.com/hugomyb/filament-media-action/main/docs/example6.png)
+![example7](https://raw.githubusercontent.com/hugomyb/filament-media-action/main/docs/example7.png)
 
 ## Installation
 
