@@ -2,6 +2,13 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.0.1 - 2024-07-31
+
+Fixes :
+
+- Better use of loading state, to check that the media is not already loaded
+- Using an embed tag instead of an iframe to display pdf files
+
 ## v3.1.0.0 - 2024-07-30
 
 ### Release v3.1.0.0
