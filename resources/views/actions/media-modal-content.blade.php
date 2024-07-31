@@ -56,14 +56,16 @@
 
         @elseif ($mediaType === 'audio')
 
-            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplaythrough="loading = false" @loadeddata="loading = false">
+            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplaythrough="loading = false"
+                   @loadeddata="loading = false">
                 <source src="{{ $media }}" type="audio/{{ pathinfo($media, PATHINFO_EXTENSION) }}">
                 Your browser does not support the audio element.
             </audio>
 
         @elseif ($mediaType === 'video')
 
-            <video x-ref="mediaFrame" class="rounded-lg" width="100%" style="aspect-ratio: 16 / 9;" controls @canplaythrough="loading = false">
+            <video x-ref="mediaFrame" class="rounded-lg" width="100%" style="aspect-ratio: 16 / 9;" controls
+                   @canplaythrough="loading = false">
                 <source src="{{ $media }}" type="video/{{ pathinfo($media, PATHINFO_EXTENSION) }}">
                 Your browser does not support the video tag.
             </video>
@@ -75,8 +77,9 @@
 
         @elseif ($mediaType === 'pdf')
 
-            <embed x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" type="application/pdf" width="100%"
-                   height="600" @load="loading = false">
+            <iframe x-ref="mediaFrame" class="rounded-lg"
+                    src="https://docs.google.com/gview?url={{ $media }}&embedded=true" width="100%" height="600"
+                    @load="loading = false"></iframe>
 
         @else
             <p>Unsupported media type.</p>
