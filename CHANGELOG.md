@@ -2,6 +2,10 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## Fix - 2024-08-06
+
+Fixed error message "Unsupported media", if the media url contains query parameters
+
 ## v3.1.0.3 - 2024-07-31
 
 ### Fix :
