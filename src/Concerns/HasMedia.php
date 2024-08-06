@@ -60,9 +60,14 @@ trait HasMedia
             return 'youtube';
         }
 
-        $pathInfo = pathinfo($url);
+        // Parse the URL to remove query parameters
+        $parsedUrl = parse_url($url, PHP_URL_PATH);
+
+        // Get path info from the parsed URL
+        $pathInfo = pathinfo($parsedUrl);
         $extension = strtolower($pathInfo['extension'] ?? '');
 
+        // Define media types and their extensions
         $mediaTypes = [
             'audio' => ['mp3', 'wav', 'ogg', 'aac'],
             'video' => ['mp4', 'avi', 'mov', 'webm'],
@@ -70,6 +75,7 @@ trait HasMedia
             'pdf' => ['pdf'],
         ];
 
+        // Check if the extension matches any media type
         foreach ($mediaTypes as $type => $extensions) {
             if (in_array($extension, $extensions)) {
                 return $type;
