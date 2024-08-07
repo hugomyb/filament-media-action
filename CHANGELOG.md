@@ -2,6 +2,12 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.0.5 - 2024-08-07
+
+Fixed "Unsupported media type" if the media url has no extension, checking the `Content-Type` header
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.0.4...main
+
 ## Fix - 2024-08-06
 
 Fixed error message "Unsupported media", if the media url contains query parameters
