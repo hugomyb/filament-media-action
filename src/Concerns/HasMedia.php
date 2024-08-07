@@ -82,6 +82,21 @@ trait HasMedia
             }
         }
 
+        //if the $url has no extension, make a get request to the url and check the content type
+        $headers = get_headers($url, 1);
+        if (isset($headers['Content-Type'])) {
+            $contentType = $headers['Content-Type'];
+            if (strpos($contentType, 'audio') !== false) {
+                return 'audio';
+            } elseif (strpos($contentType, 'video') !== false) {
+                return 'video';
+            } elseif (strpos($contentType, 'image') !== false) {
+                return 'image';
+            } elseif (strpos($contentType, 'pdf') !== false) {
+                return 'pdf';
+            }
+        }
+
         return 'unknown';
     }
 
