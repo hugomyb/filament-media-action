@@ -13,6 +13,8 @@ trait HasMedia
 
     public ?string $mediaType;
 
+    public ?string $mime;
+
     public static function getDefaultName(): ?string
     {
         return 'media';
@@ -63,6 +65,11 @@ trait HasMedia
         // Parse the URL to remove query parameters
         $parsedUrl = parse_url($url, PHP_URL_PATH);
 
+        // Handle cases where the URL path ends with a slash (no file)
+        if (substr($parsedUrl, -1) === '/') {
+            $parsedUrl = rtrim($parsedUrl, '/');
+        }
+
         // Get path info from the parsed URL
         $pathInfo = pathinfo($parsedUrl);
         $extension = strtolower($pathInfo['extension'] ?? '');
@@ -78,25 +85,31 @@ trait HasMedia
         // Check if the extension matches any media type
         foreach ($mediaTypes as $type => $extensions) {
             if (in_array($extension, $extensions)) {
+                $this->mime = "$type/$extension"; // Set the MIME type
                 return $type;
             }
         }
 
-        //if the $url has no extension, make a get request to the url and check the content type
-        $headers = get_headers($url, 1);
-        if (isset($headers['Content-Type'])) {
-            $contentType = $headers['Content-Type'];
+        // If the extension is not found, use HTTP headers to detect the content type
+        $headers = @get_headers($url, 1);
+        if ($headers && isset($headers['Content-Type'])) {
+            $contentType = is_array($headers['Content-Type']) ? $headers['Content-Type'][0] : $headers['Content-Type'];
             if (strpos($contentType, 'audio') !== false) {
+                $this->mime = $contentType;
                 return 'audio';
             } elseif (strpos($contentType, 'video') !== false) {
+                $this->mime = $contentType;
                 return 'video';
             } elseif (strpos($contentType, 'image') !== false) {
+                $this->mime = $contentType;
                 return 'image';
             } elseif (strpos($contentType, 'pdf') !== false) {
+                $this->mime = $contentType;
                 return 'pdf';
             }
         }
 
+        $this->mime = 'unknown';
         return 'unknown';
     }
 
@@ -107,6 +120,7 @@ trait HasMedia
         return view('filament-media-action::actions.media-modal-content', [
             'mediaType' => $this->mediaType,
             'media' => $this->getMedia(),
+            'mime' => $this->mime,
         ]);
     }
 

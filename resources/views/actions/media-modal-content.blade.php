@@ -58,7 +58,7 @@
 
             <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplaythrough="loading = false"
                    @loadeddata="loading = false">
-                <source src="{{ $media }}" type="audio/{{ pathinfo($media, PATHINFO_EXTENSION) }}">
+                <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the audio element.
             </audio>
 
@@ -66,7 +66,7 @@
 
             <video x-ref="mediaFrame" class="rounded-lg" width="100%" style="aspect-ratio: 16 / 9;" controls
                    @canplaythrough="loading = false">
-                <source src="{{ $media }}" type="video/{{ pathinfo($media, PATHINFO_EXTENSION) }}">
+                <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the video tag.
             </video>
 
