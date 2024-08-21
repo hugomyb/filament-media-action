@@ -13,7 +13,7 @@ trait HasMedia
 
     public ?string $mediaType;
 
-    public ?string $mime;
+    public ?string $mime = 'unknown';
 
     public static function getDefaultName(): ?string
     {
