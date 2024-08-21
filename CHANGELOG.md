@@ -2,6 +2,14 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.0.7 - 2024-08-21
+
+### Fix
+
+Add default value to $mime to prevent "MediaAction::$mime must not be accessed before initialization"
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.0.6...main
+
 ## v3.1.0.6 - 2024-08-13
 
 ### Fix
