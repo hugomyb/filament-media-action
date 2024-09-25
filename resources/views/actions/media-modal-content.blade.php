@@ -1,31 +1,46 @@
 <div class="w-full flex flex-col justify-center items-center h-full"
      x-data="{
             loading: true,
+            autoplayed: false,
 
             init() {
-                let mediaElement = this.$refs.mediaFrame;
-                if (mediaElement) {
+                let mediaElement = this.$refs.mediaFrame
+
+                if (mediaElement && !this.autoplayed) {
                     mediaElement.onload = () => {
-                        this.loading = false;
-                    };
+                        this.loading = false
+                    }
                     mediaElement.oncanplaythrough = () => {
-                        this.loading = false;
-                    };
+                        this.loading = false
+                    }
                     mediaElement.onloadstart = () => {
-                        this.loading = true;
-                    };
+                        this.loading = true
+                    }
                     mediaElement.onerror = () => {
-                        this.loading = false;
-                    };
+                        this.loading = false
+                    }
 
                     if (mediaElement.readyState >= 3) {
-                        this.loading = false;
+                        this.loading = false
+                    }
+
+                    // Autoplay logic
+                    if (@js($autoplay) && mediaElement.play) {
+                        this.autoplayed = true;
+                        mediaElement.play().catch(() => {
+                            console.log('Autoplay failed or was blocked.');
+                        });
                     }
                 } else {
                     this.loading = false;
                 }
+            },
+
+            resetAutoplay() {
+                this.autoplayed = false;
             }
         }"
+     @open-modal.window="resetAutoplay"
 >
 
     <template x-if="loading">
@@ -46,7 +61,7 @@
 
             @if ($youtubeId)
                 <iframe x-ref="mediaFrame" class="rounded-lg" width="100%"
-                        src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                        src="https://www.youtube.com/embed/{{ $youtubeId }}{{ $autoplay ? '?autoplay=1' : '' }}"
                         frameborder="0"
                         style="aspect-ratio: 16 / 9;"
                         allowfullscreen></iframe>

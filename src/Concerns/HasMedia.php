@@ -2,18 +2,20 @@
 
 namespace Hugomyb\FilamentMediaAction\Concerns;
 
+use Closure;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 
 trait HasMedia
 {
-
-    public \Closure|string|null $media;
+    public \Closure | string | null $media;
 
     public ?string $mediaType;
 
     public ?string $mime = 'unknown';
+
+    protected bool | Closure $hasAutoplay = false;
 
     public static function getDefaultName(): ?string
     {
@@ -47,6 +49,21 @@ trait HasMedia
     {
         return $this->evaluate($this->media, [
             'record' => $this->getRecordInstance()
+        ]);
+    }
+
+    public function autoplay(bool|\Closure $hasAutoplay = true): static
+    {
+        $this->hasAutoplay = $hasAutoplay;
+
+        return $this;
+    }
+
+    public function hasAutoplay(): bool
+    {
+        return (bool) $this->evaluate($this->hasAutoplay, [
+            'record' => $this->getRecordInstance(),
+            'mediaType' => $this->mediaType,
         ]);
     }
 
@@ -121,6 +138,7 @@ trait HasMedia
             'mediaType' => $this->mediaType,
             'media' => $this->getMedia(),
             'mime' => $this->mime,
+            'autoplay' => $this->hasAutoplay(),
         ]);
     }
 
