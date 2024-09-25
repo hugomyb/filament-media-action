@@ -2,6 +2,16 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.0.8 - 2024-09-25
+
+### Feature: Media Autoplay in Modal
+
+#### Description:
+
+Implemented a media autoplay feature that automatically plays embedded audio, video, and YouTube media when the modal is opened. This feature adds the `->autoplay()` method.
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.0.7...v3.1.0.8
+
 ## v3.1.0.7 - 2024-08-21
 
 ### Fix
