@@ -54,6 +54,28 @@ MediaAction::make('tutorial')
 
 ### Available options
 
+#### Autoplay
+
+You can enable autoplay for video and audio by using the `->autoplay()` method.
+
+```php
+MediaAction::make('media-url')
+    ->media(fn($record) => $record->url)
+    ->autoplay()
+```
+
+You can also pass a closure in the method and access `$record` and `$mediaType` :
+
+```php
+MediaAction::make('media-url')
+    ->media(fn($record) => $record->url)
+    ->autoplay(fn($record, $mediaType) => $mediaType === 'video')
+```
+
+`$mediatype` can return "youtube", "audio", "video", "image" or "pdf".
+
+#### Other options
+
 You can customize the modal as you wish in the same way as a classic action (see https://filamentphp.com/docs/3.x/actions/modals).
 
 If there is an existing record, you can access it by passing a closure to `->media()` method.
