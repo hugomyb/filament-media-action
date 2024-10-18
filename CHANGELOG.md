@@ -2,6 +2,14 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.0 - 2024-10-18
+
+### What's Changed
+
+- Fix audio loading on iOS devices: Resolved an issue where audio files were not loading properly on iPhones, resulting in an infinite spinner. Added additional event listeners (@canplay, @loadeddata, and @play) to improve the loading state handling of audio elements.
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.0.8...v3.1.1.0
+
 ## v3.1.0.9 - 2024-10-02
 
 ### What's Changed
