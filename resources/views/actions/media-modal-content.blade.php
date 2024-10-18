@@ -53,10 +53,24 @@
     <div class="mediaContainer w-full flex flex-col justify-center items-center h-full" x-show="!loading">
         @if ($mediaType === 'youtube')
             @php
-                // Extract the YouTube video ID from the URL
-                $queryString = parse_url($media, PHP_URL_QUERY);
-                parse_str($queryString, $queryParams);
-                $youtubeId = $queryParams['v'] ?? '';
+                $youtubeId = '';
+
+                // Parse the URL to get components
+                $parsedUrl = parse_url($media);
+
+                if (isset($parsedUrl['host'])) {
+                    // Check if it's a youtu.be short URL
+                    if (strpos($parsedUrl['host'], 'youtu.be') !== false) {
+                        // Get the path and extract the video ID
+                        $youtubeId = ltrim($parsedUrl['path'], '/');
+                    }
+                    // Check if it's a regular youtube.com URL
+                    elseif (strpos($parsedUrl['host'], 'youtube.com') !== false) {
+                        // Extract the query parameters and get the 'v' parameter
+                        parse_str($parsedUrl['query'], $queryParams);
+                        $youtubeId = $queryParams['v'] ?? '';
+                    }
+                }
             @endphp
 
             @if ($youtubeId)
