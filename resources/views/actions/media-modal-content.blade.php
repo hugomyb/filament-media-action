@@ -71,8 +71,7 @@
 
         @elseif ($mediaType === 'audio')
 
-            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplaythrough="loading = false"
-                   @loadeddata="loading = false">
+            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplay="loading = false" @loadeddata="loading = false" @play="loading = false">
                 <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the audio element.
             </audio>
