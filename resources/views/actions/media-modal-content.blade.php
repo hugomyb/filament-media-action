@@ -85,7 +85,7 @@
 
         @elseif ($mediaType === 'audio')
 
-            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplay="loading = false" @loadeddata="loading = false" @play="loading = false" preload="{{ $preload }}">
+            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplay="loading = false" @loadeddata="loading = false" @play="loading = false" {{ $preload == false ? 'preload="none"' : '' }}>
                 <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the audio element.
             </audio>
@@ -93,7 +93,7 @@
         @elseif ($mediaType === 'video')
 
             <video x-ref="mediaFrame" class="rounded-lg" width="100%" style="aspect-ratio: 16 / 9;" controls
-                   @canplaythrough="loading = false" preload="{{ $preload }}">
+                   @canplaythrough="loading = false" {{ $preload == false ? 'preload="none"' : '' }}>
                 <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the video tag.
             </video>

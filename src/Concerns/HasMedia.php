@@ -17,7 +17,7 @@ trait HasMedia
 
     protected bool | Closure $hasAutoplay = false;
 
-    public ?string $preload = '';
+    public ?bool $isPreloading = true;
 
     public static function getDefaultName(): ?string
     {
@@ -132,9 +132,9 @@ trait HasMedia
         return 'unknown';
     }
 
-    public function preloadNone(): static
+    public function preload(?bool $isPreloading=true): static
     {
-        $this->preload = 'none';
+        $this->isPreloading = $isPreloading;
 
         return $this;
     }
@@ -148,7 +148,7 @@ trait HasMedia
             'media' => $this->getMedia(),
             'mime' => $this->mime,
             'autoplay' => $this->hasAutoplay(),
-            'preload' => $this->preload,
+            'preload' => $this->isPreloading,
         ]);
     }
 
