@@ -2,6 +2,18 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.1 - 2024-10-31
+
+### What's Changed
+
+* Fix intermittent autoplay blocking issue by adding preload control option by @waggos-root in https://github.com/hugomyb/filament-media-action/pull/11
+
+### New Contributors
+
+* @waggos-root made their first contribution in https://github.com/hugomyb/filament-media-action/pull/11
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.0...v3.1.1.1
+
 ## v3.1.1.0 - 2024-10-18
 
 ### What's Changed
