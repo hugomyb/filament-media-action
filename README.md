@@ -74,6 +74,17 @@ MediaAction::make('media-url')
 
 `$mediatype` can return "youtube", "audio", "video", "image" or "pdf".
 
+#### Preload
+
+To control the preload behavior, use the ->preload() method. By default, it is set to true, which means the media will preload automatically. You can set it to false to disable preloading (this is helpful to avoid "Autoplay failed or was blocked" errors in some browsers).
+
+```php
+MediaAction::make('media-url')
+    ->media(fn($record) => $record->url)
+    ->autoplay()
+    ->preload(false)
+```
+
 #### Other options
 
 You can customize the modal as you wish in the same way as a classic action (see https://filamentphp.com/docs/3.x/actions/modals).
