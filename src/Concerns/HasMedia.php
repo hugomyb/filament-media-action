@@ -17,6 +17,8 @@ trait HasMedia
 
     protected bool | Closure $hasAutoplay = false;
 
+    public ?bool $preloadAuto = true;
+
     public static function getDefaultName(): ?string
     {
         return 'media';
@@ -130,6 +132,13 @@ trait HasMedia
         return 'unknown';
     }
 
+    public function preload(?bool $preloadAuto=true): static
+    {
+        $this->preloadAuto = $preloadAuto;
+
+        return $this;
+    }
+
     public function getContentView(): View|Htmlable
     {
         $this->mediaType = $this->detectMediaType();
@@ -139,6 +148,7 @@ trait HasMedia
             'media' => $this->getMedia(),
             'mime' => $this->mime,
             'autoplay' => $this->hasAutoplay(),
+            'preload' => $this->preloadAuto,
         ]);
     }
 
