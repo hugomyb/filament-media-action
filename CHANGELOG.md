@@ -2,6 +2,18 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.2 - 2024-11-10
+
+### What's Changed
+
+* Fix playing video on iPhone by @mokhosh in https://github.com/hugomyb/filament-media-action/pull/13
+
+### New Contributors
+
+* @mokhosh made their first contribution in https://github.com/hugomyb/filament-media-action/pull/13
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.1...v3.1.1.2
+
 ## v3.1.1.1 - 2024-10-31
 
 ### What's Changed
