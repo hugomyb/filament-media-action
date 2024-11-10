@@ -5,6 +5,7 @@
 
             init() {
                 let mediaElement = this.$refs.mediaFrame
+                mediaElement.load()
 
                 if (mediaElement && !this.autoplayed) {
                     mediaElement.onload = () => {
@@ -92,7 +93,7 @@
 
         @elseif ($mediaType === 'video')
 
-            <video x-ref="mediaFrame" class="rounded-lg" width="100%" style="aspect-ratio: 16 / 9;" controls
+            <video x-ref="mediaFrame" class="rounded-lg" width="100%" style="aspect-ratio: 16 / 9;" controls playsinline
                    @canplaythrough="loading = false" {{ $preload == false ? 'preload="none"' : '' }}>
                 <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the video tag.
