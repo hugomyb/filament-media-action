@@ -4,25 +4,27 @@
             autoplayed: false,
 
             init() {
-                let mediaElement = this.$refs.mediaFrame
-                mediaElement.load()
+                this.loading = true;
+                let mediaElement = this.$refs.mediaFrame;
 
-                if (mediaElement && !this.autoplayed) {
+                if (mediaElement.tagName === 'VIDEO' || mediaElement.tagName === 'AUDIO') {
+                    mediaElement.load();
+
                     mediaElement.onload = () => {
-                        this.loading = false
-                    }
+                        this.loading = false;
+                    };
                     mediaElement.oncanplaythrough = () => {
-                        this.loading = false
-                    }
+                        this.loading = false;
+                    };
                     mediaElement.onloadstart = () => {
-                        this.loading = true
-                    }
+                        this.loading = true;
+                    };
                     mediaElement.onerror = () => {
-                        this.loading = false
-                    }
+                        this.loading = false;
+                    };
 
                     if (mediaElement.readyState >= 3) {
-                        this.loading = false
+                        this.loading = false;
                     }
 
                     // Autoplay logic
@@ -33,6 +35,13 @@
                         });
                     }
                 } else {
+                    mediaElement.onload = () => {
+                        this.loading = false;
+                    };
+                    mediaElement.onerror = () => {
+                        this.loading = false;
+                    };
+
                     this.loading = false;
                 }
             },
@@ -44,12 +53,10 @@
      @open-modal.window="resetAutoplay"
 >
 
-    <template x-if="loading">
-        <div class="flex h-full flex-col justify-center items-center">
-            <x-filament::loading-indicator class="h-10 w-10" />
-            <span class="text-center font-bold">{{ __('filament-media-action::media-action.loading') }}</span>
-        </div>
-    </template>
+    <div class="flex h-full flex-col justify-center items-center" x-show="loading">
+        <x-filament::loading-indicator class="h-10 w-10" />
+        <span class="text-center font-bold">{{ __('filament-media-action::media-action.loading') }}</span>
+    </div>
 
     <div class="mediaContainer w-full flex flex-col justify-center items-center h-full" x-show="!loading">
         @if ($mediaType === 'youtube')
@@ -86,7 +93,9 @@
 
         @elseif ($mediaType === 'audio')
 
-            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplay="loading = false" @loadeddata="loading = false" @play="loading = false" {{ $preload == false ? 'preload="none"' : '' }}>
+            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplay="loading = false"
+                   @loadeddata="loading = false"
+                   @play="loading = false" {{ $preload == false ? 'preload="none"' : '' }}>
                 <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the audio element.
             </audio>
