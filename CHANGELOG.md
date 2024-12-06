@@ -2,6 +2,27 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.4 - 2024-12-06
+
+### Release: Improved Media Loading Experience
+
+#### Features
+
+- Added consistent loading indicator display for all media types, including YouTube videos, images, and PDFs.
+- Introduced a delay mechanism (200ms) to ensure the loading indicator is visible for fast-loading media.
+
+#### Fixes
+
+- Resolved an issue where the loading indicator would not appear for images and iframes.
+- Improved initialization logic to handle unsupported or missing media elements without errors.
+- Enhanced media handling to better support `<video>`, `<audio>`, `<img>`, and `<iframe>` elements.
+
+#### Notes
+
+This release enhances the user experience by providing a reliable loading indicator for all supported media formats in the Filament Media Viewer package.
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.3...v3.1.1.4
+
 ## v3.1.1.3 - 2024-12-05
 
 ### Release: Media Viewer Fixes and Improvements
