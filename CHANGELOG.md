@@ -2,6 +2,24 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.3 - 2024-12-05
+
+### Release: Media Viewer Fixes and Improvements
+
+#### Features
+
+- Enhanced media type support: Improved handling for YouTube videos, images, PDFs, and other media types in the viewer.
+- Added dynamic checks for `<video>` and `<audio>` elements to prevent errors when unsupported methods like `.load()` are called.
+
+#### Fixes
+
+- Resolved Alpine Expression Error: "mediaElement.load is not a function" by ensuring `.load()` is only invoked on compatible media elements.
+- Improved stability and loading logic for all media types, including fallback handling for `<img>` and iframes.
+
+#### Notes
+
+This release ensures a smoother user experience and greater compatibility for diverse media formats in the Filament Media Viewer package.
+
 ## v3.1.1.2 - 2024-11-10
 
 ### What's Changed
