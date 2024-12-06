@@ -7,6 +7,11 @@
                 this.loading = true;
                 let mediaElement = this.$refs.mediaFrame;
 
+                if (!mediaElement) {
+                    this.loading = false;
+                    return;
+                }
+
                 if (mediaElement.tagName === 'VIDEO' || mediaElement.tagName === 'AUDIO') {
                     mediaElement.load();
 
@@ -35,14 +40,16 @@
                         });
                     }
                 } else {
+                    this.loading = true;
+
                     mediaElement.onload = () => {
-                        this.loading = false;
+                        setTimeout(() => {
+                            this.loading = false;
+                        }, 200);
                     };
                     mediaElement.onerror = () => {
                         this.loading = false;
                     };
-
-                    this.loading = false;
                 }
             },
 
