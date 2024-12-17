@@ -2,6 +2,18 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.5 - 2024-12-17
+
+### What's Changed
+
+* Fix header case for some hosts. by @jimmystelzer in https://github.com/hugomyb/filament-media-action/pull/15
+
+### New Contributors
+
+* @jimmystelzer made their first contribution in https://github.com/hugomyb/filament-media-action/pull/15
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.4...v3.1.1.5
+
 ## v3.1.1.4 - 2024-12-06
 
 ### Release: Improved Media Loading Experience
