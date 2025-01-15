@@ -127,7 +127,7 @@
                     @load="loading = false"></iframe>
 
         @else
-            <p>Unsupported media type.</p>
+            <p>{{ __('filament-media-action::unsupported-media-type') }}</p>
         @endif
     </div>
 </div>
