@@ -2,6 +2,18 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.6 - 2025-01-15
+
+### What's Changed
+
+* Add italian translation by @masterix21 in https://github.com/hugomyb/filament-media-action/pull/16
+
+### New Contributors
+
+* @masterix21 made their first contribution in https://github.com/hugomyb/filament-media-action/pull/16
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.5...v3.1.1.6
+
 ## v3.1.1.5 - 2024-12-17
 
 ### What's Changed
