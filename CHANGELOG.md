@@ -2,6 +2,51 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.6 - 2025-01-15
+
+### What's Changed
+
+* Add italian translation by @masterix21 in https://github.com/hugomyb/filament-media-action/pull/16
+
+### New Contributors
+
+* @masterix21 made their first contribution in https://github.com/hugomyb/filament-media-action/pull/16
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.5...v3.1.1.6
+
+## v3.1.1.5 - 2024-12-17
+
+### What's Changed
+
+* Fix header case for some hosts. by @jimmystelzer in https://github.com/hugomyb/filament-media-action/pull/15
+
+### New Contributors
+
+* @jimmystelzer made their first contribution in https://github.com/hugomyb/filament-media-action/pull/15
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.4...v3.1.1.5
+
+## v3.1.1.4 - 2024-12-06
+
+### Release: Improved Media Loading Experience
+
+#### Features
+
+- Added consistent loading indicator display for all media types, including YouTube videos, images, and PDFs.
+- Introduced a delay mechanism (200ms) to ensure the loading indicator is visible for fast-loading media.
+
+#### Fixes
+
+- Resolved an issue where the loading indicator would not appear for images and iframes.
+- Improved initialization logic to handle unsupported or missing media elements without errors.
+- Enhanced media handling to better support `<video>`, `<audio>`, `<img>`, and `<iframe>` elements.
+
+#### Notes
+
+This release enhances the user experience by providing a reliable loading indicator for all supported media formats in the Filament Media Viewer package.
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.3...v3.1.1.4
+
 ## v3.1.1.3 - 2024-12-05
 
 ### Release: Media Viewer Fixes and Improvements

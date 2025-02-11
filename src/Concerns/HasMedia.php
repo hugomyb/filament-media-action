@@ -112,8 +112,11 @@ trait HasMedia
 
         // If the extension is not found, use HTTP headers to detect the content type
         $headers = @get_headers($url, 1);
-        if ($headers && isset($headers['Content-Type'])) {
-            $contentType = is_array($headers['Content-Type']) ? $headers['Content-Type'][0] : $headers['Content-Type'];
+        if($headers && is_array($headers)) {
+            $headers = array_change_key_case($headers);
+        }
+        if ($headers && isset($headers['content-type'])) {
+            $contentType = is_array($headers['content-type']) ? $headers['content-type'][0] : $headers['content-type'];
             if (strpos($contentType, 'audio') !== false) {
                 $this->mime = $contentType;
                 return 'audio';
