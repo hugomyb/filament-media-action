@@ -28,8 +28,6 @@ trait HasMedia
     {
         parent::setUp();
 
-        $this->modal();
-
         $this->modalSubmitAction(false);
 
         $this->modalCancelAction(false);
@@ -38,7 +36,6 @@ trait HasMedia
             return $this->getContentView();
         });
     }
-
 
     public function media(string|\Closure|null $url): static
     {
@@ -50,7 +47,11 @@ trait HasMedia
     public function getMedia(): ?string
     {
         return $this->evaluate($this->media, [
-            'record' => $this->getRecordInstance()
+            ...$this->resolveDefaultClosureDependencyForEvaluationByName('record'),
+            ...$this->resolveDefaultClosureDependencyForEvaluationByName('model'),
+            ...$this->resolveDefaultClosureDependencyForEvaluationByName('arguments'),
+            ...$this->resolveDefaultClosureDependencyForEvaluationByName('data'),
+            ...$this->resolveDefaultClosureDependencyForEvaluationByName('livewire'),
         ]);
     }
 
@@ -64,7 +65,7 @@ trait HasMedia
     public function hasAutoplay(): bool
     {
         return (bool) $this->evaluate($this->hasAutoplay, [
-            'record' => $this->getRecordInstance(),
+            ...$this->resolveDefaultClosureDependencyForEvaluationByName('record'),
             'mediaType' => $this->mediaType,
         ]);
     }
@@ -150,14 +151,5 @@ trait HasMedia
             'autoplay' => $this->hasAutoplay(),
             'preload' => $this->preloadAuto,
         ]);
-    }
-
-    private function getRecordInstance(): ?Model
-    {
-        if (method_exists($this, 'getRecord') && $this->getRecord()) {
-            return $this->getRecord() ? $this->getRecord() : null;
-        } else {
-            return null;
-        }
     }
 }
