@@ -91,6 +91,8 @@ You can customize the modal as you wish in the same way as a classic action (see
 
 If there is an existing record, you can access it by passing a closure to `->media()` method.
 
+Accessible parameters: `$livewire`, `$data`, `$model`, `$record`, `$arguments`.
+
 Example :
 ```php
 MediaAction::make('media-url')
