@@ -2,6 +2,23 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.7 - 2025-02-11
+
+### 🚀 Release v3.1.1.7 – Dynamic Closure Dependency Resolution
+
+#### ✨ What's New?
+
+##### Automatic resolution of dependencies for `evaluate()`
+
+- No more manual listing of dependencies (`record`, `model`, `arguments`, `data`, `livewire`).
+- All closures evaluated with `evaluate()` now automatically receive all available dependencies.
+- Improved flexibility and maintainability of the package.
+
+#### 🐛 Fixes & Improvements
+
+- Optimized code to eliminate redundant calls to `resolveDefaultClosureDependencyForEvaluationByName()`.
+- Reduced errors caused by missing dependencies in `evaluate()`.
+
 ## v3.1.1.6 - 2025-01-15
 
 ### What's Changed
