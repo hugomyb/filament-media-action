@@ -16,8 +16,11 @@
     backupStaticProperties="false"
 >
     <testsuites>
-        <testsuite name="Hugomyb Test Suite">
-            <directory>tests</directory>
+        <testsuite name="Hugomyb Unit Test Suite">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Hugomyb Feature Test Suite">
+            <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
     <coverage>
