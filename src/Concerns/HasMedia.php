@@ -98,17 +98,9 @@ trait HasMedia
     {
         if ($this->evaluate($when, [
             ...$this->resolveDefaultClosureDependencyForEvaluationByName('record'),
-            ...$this->resolveDefaultClosureDependencyForEvaluationByName('model'),
-            ...$this->resolveDefaultClosureDependencyForEvaluationByName('arguments'),
-            ...$this->resolveDefaultClosureDependencyForEvaluationByName('data'),
-            ...$this->resolveDefaultClosureDependencyForEvaluationByName('livewire'),
         ])) {
             $current = (array) $this->evaluate($this->mediaControlsList, [
                 ...$this->resolveDefaultClosureDependencyForEvaluationByName('record'),
-                ...$this->resolveDefaultClosureDependencyForEvaluationByName('model'),
-                ...$this->resolveDefaultClosureDependencyForEvaluationByName('arguments'),
-                ...$this->resolveDefaultClosureDependencyForEvaluationByName('data'),
-                ...$this->resolveDefaultClosureDependencyForEvaluationByName('livewire'),
             ]);
 
             if (in_array($token, $current, true) === false) {
@@ -124,10 +116,6 @@ trait HasMedia
     {
         $list = (array) $this->evaluate($this->mediaControlsList, [
             ...$this->resolveDefaultClosureDependencyForEvaluationByName('record'),
-            ...$this->resolveDefaultClosureDependencyForEvaluationByName('model'),
-            ...$this->resolveDefaultClosureDependencyForEvaluationByName('arguments'),
-            ...$this->resolveDefaultClosureDependencyForEvaluationByName('data'),
-            ...$this->resolveDefaultClosureDependencyForEvaluationByName('livewire'),
         ]);
 
         return filled($list) ? implode(' ', $list) : null;
