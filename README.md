@@ -85,6 +85,46 @@ MediaAction::make('media-url')
     ->preload(false)
 ```
 
+#### Control list
+
+You can control the media player's interface by using the control list options. These options allow you to disable certain features of the HTML5 video and audio players.
+
+> **Note:** Control list options only work in Chromium-based browsers (Chrome, Edge, etc.) and have no effect in Firefox, Safari, or other browsers.
+
+You can use the following convenience methods:
+
+```php
+MediaAction::make('media-url')
+    ->media(fn($record) => $record->url)
+    ->disableDownload() // Prevents the user from downloading the media
+    ->disableFullscreen() // Prevents the user from viewing the video in fullscreen
+    ->disableRemotePlayback() // Prevents the user from using remote playback (e.g., Chromecast)
+```
+
+Each of these methods can accept a boolean or a closure:
+
+```php
+MediaAction::make('media-url')
+    ->media(fn($record) => $record->url)
+    ->disableDownload(fn($record) => $record->is_protected)
+```
+
+You can also set the control list directly using the `controlsList` method:
+
+```php
+MediaAction::make('media-url')
+    ->media(fn($record) => $record->url)
+    ->controlsList(['nodownload', 'nofullscreen', 'noremoteplayback'])
+```
+
+Or with a closure:
+
+```php
+MediaAction::make('media-url')
+    ->media(fn($record) => $record->url)
+    ->controlsList(fn($record) => $record->is_protected ? ['nodownload'] : [])
+```
+
 #### Other options
 
 You can customize the modal as you wish in the same way as a classic action (see https://filamentphp.com/docs/3.x/actions/modals).
