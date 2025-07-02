@@ -75,14 +75,12 @@
 
                 if (isset($parsedUrl['host'])) {
                     // Check if it's a youtu.be short URL
-                    if (strpos($parsedUrl['host'], 'youtu.be') !== false) {
-                        // Get the path and extract the video ID
+                    if (str_contains($parsedUrl['host'], 'youtu.be')) {
                         $youtubeId = ltrim($parsedUrl['path'], '/');
                     }
                     // Check if it's a regular youtube.com URL
-                    elseif (strpos($parsedUrl['host'], 'youtube.com') !== false) {
-                        // Extract the query parameters and get the 'v' parameter
-                        parse_str($parsedUrl['query'], $queryParams);
+                    elseif (str_contains($parsedUrl['host'], 'youtube.com')) {
+                        parse_str($parsedUrl['query'] ?? '', $queryParams);
                         $youtubeId = $queryParams['v'] ?? '';
                     }
                 }
@@ -93,24 +91,39 @@
                         src="https://www.youtube.com/embed/{{ $youtubeId }}{{ $autoplay ? '?autoplay=1' : '' }}"
                         frameborder="0"
                         style="aspect-ratio: 16 / 9;"
-                        allowfullscreen></iframe>
+                        allowfullscreen
+                ></iframe>
             @else
                 <p>Invalid YouTube URL.</p>
             @endif
 
         @elseif ($mediaType === 'audio')
-
-            <audio x-ref="mediaFrame" class="rounded-lg w-full" controls @canplay="loading = false"
-                   @loadeddata="loading = false"
-                   @play="loading = false" {{ $preload == false ? 'preload="none"' : '' }}>
+            <audio
+                    x-ref="mediaFrame"
+                    class="rounded-lg w-full"
+                    controls
+                    @if($controlsList) controlsList="{{ $controlsList }}" @endif
+                    @canplay="loading = false"
+                    @loadeddata="loading = false"
+                    @play="loading = false"
+                    {{ $preload ? '' : 'preload="none"' }}
+            >
                 <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the audio element.
             </audio>
 
         @elseif ($mediaType === 'video')
-
-            <video x-ref="mediaFrame" class="rounded-lg" width="100%" style="aspect-ratio: 16 / 9;" controls playsinline
-                   @canplaythrough="loading = false" {{ $preload == false ? 'preload="none"' : '' }}>
+            <video
+                    x-ref="mediaFrame"
+                    class="rounded-lg w-full"
+                    width="100%"
+                    style="aspect-ratio: 16 / 9;"
+                    controls
+                    playsinline
+                    @if($controlsList) controlsList="{{ $controlsList }}" @endif
+                    @canplaythrough="loading = false"
+                    {{ $preload ? '' : 'preload="none"' }}
+            >
                 <source src="{{ $media }}" type="{{ $mime }}">
                 Your browser does not support the video tag.
             </video>
