@@ -17,6 +17,8 @@ trait HasMedia
 
     protected bool | Closure $hasAutoplay = false;
 
+    protected array | Closure $mediaControlsList = [];
+
     public ?bool $preloadAuto = true;
 
     public static function getDefaultName(): ?string
@@ -70,6 +72,55 @@ trait HasMedia
         ]);
     }
 
+    public function controlsList(array|Closure $list): static
+    {
+        $this->mediaControlsList = $list;
+
+        return $this;
+    }
+
+    public function disableDownload(bool|Closure $when = true): static
+    {
+        return $this->addMediaControlToken('nodownload', $when);
+    }
+
+    public function disableFullscreen(bool|Closure $when = true): static
+    {
+        return $this->addMediaControlToken('nofullscreen', $when);
+    }
+
+    public function disableRemotePlayback(bool|Closure $when = true): static
+    {
+        return $this->addMediaControlToken('noremoteplayback', $when);
+    }
+
+    protected function addMediaControlToken(string $token, bool|Closure $when): static
+    {
+        if ($this->evaluate($when, [
+            ...$this->resolveDefaultClosureDependencyForEvaluationByName('record'),
+        ])) {
+            $current = (array) $this->evaluate($this->mediaControlsList, [
+                ...$this->resolveDefaultClosureDependencyForEvaluationByName('record'),
+            ]);
+
+            if (in_array($token, $current, true) === false) {
+                $current[] = $token;
+                $this->mediaControlsList = $current;
+            }
+        }
+
+        return $this;
+    }
+
+    protected function getMediaControlsList(): ?string
+    {
+        $list = (array) $this->evaluate($this->mediaControlsList, [
+            ...$this->resolveDefaultClosureDependencyForEvaluationByName('record'),
+        ]);
+
+        return filled($list) ? implode(' ', $list) : null;
+    }
+
     protected function detectMediaType(): string
     {
         return $this->getMediaType($this->getMedia());
@@ -86,7 +137,7 @@ trait HasMedia
         $parsedUrl = parse_url($url, PHP_URL_PATH);
 
         // Handle cases where the URL path ends with a slash (no file)
-        if (substr($parsedUrl, -1) === '/') {
+        if (str_ends_with($parsedUrl, '/')) {
             $parsedUrl = rtrim($parsedUrl, '/');
         }
 
@@ -112,23 +163,27 @@ trait HasMedia
 
         // If the extension is not found, use HTTP headers to detect the content type
         $headers = @get_headers($url, 1);
-        if($headers && is_array($headers)) {
-            $headers = array_change_key_case($headers);
-        }
-        if ($headers && isset($headers['content-type'])) {
-            $contentType = is_array($headers['content-type']) ? $headers['content-type'][0] : $headers['content-type'];
-            if (strpos($contentType, 'audio') !== false) {
-                $this->mime = $contentType;
-                return 'audio';
-            } elseif (strpos($contentType, 'video') !== false) {
-                $this->mime = $contentType;
-                return 'video';
-            } elseif (strpos($contentType, 'image') !== false) {
-                $this->mime = $contentType;
-                return 'image';
-            } elseif (strpos($contentType, 'pdf') !== false) {
-                $this->mime = $contentType;
-                return 'pdf';
+
+        if (is_array($headers)) {
+            $headers = array_change_key_case($headers, CASE_LOWER);
+
+            $rawType = $headers['content-type'] ?? null;
+            $contentType = is_array($rawType) ? reset($rawType) : $rawType;
+
+            if ($contentType) {
+                $type = match (true) {
+                    str_contains($contentType, 'audio') => 'audio',
+                    str_contains($contentType, 'video') => 'video',
+                    str_contains($contentType, 'image') => 'image',
+                    str_contains($contentType, 'pdf') => 'pdf',
+                    default => null,
+                };
+
+                if ($type !== null) {
+                    $this->mime = $contentType;
+
+                    return $type;
+                }
             }
         }
 
@@ -153,6 +208,7 @@ trait HasMedia
             'mime' => $this->mime,
             'autoplay' => $this->hasAutoplay(),
             'preload' => $this->preloadAuto,
+            'controlsList' => $this->getMediaControlsList(),
         ]);
     }
 }
