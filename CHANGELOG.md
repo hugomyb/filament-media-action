@@ -2,6 +2,18 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.8 - 2025-07-03
+
+### What's Changed
+
+* controlsList support by @clnt in https://github.com/hugomyb/filament-media-action/pull/22
+
+### New Contributors
+
+* @clnt made their first contribution in https://github.com/hugomyb/filament-media-action/pull/22
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.7...v3.1.1.8
+
 ## v3.1.1.7 - 2025-02-11
 
 ### 🚀 Release v3.1.1.7 – Dynamic Closure Dependency Resolution
