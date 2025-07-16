@@ -74,6 +74,18 @@ MediaAction::make('media-url')
 
 `$mediatype` can return "youtube", "audio", "video", "image" or "pdf".
 
+#### Force Media Type
+
+If the automatic media type detection fails (common with local development URLs or files without extensions), you can force the media type:
+
+```php
+MediaAction::make('video')
+    ->media('https://myapp.test/video.MOV')
+    ->mediaType('video') // Force video type
+```
+
+Available media types: `'video'`, `'audio'`, `'image'`, `'pdf'`, `'youtube'`.
+
 #### Preload
 
 To control the preload behavior, use the ->preload() method. By default, it is set to true, which means the media will preload automatically. You can set it to false to disable preloading (this is helpful to avoid "Autoplay failed or was blocked" errors in some browsers).
@@ -174,10 +186,10 @@ Then, in the view, you can access :
 
 | Type      | Extensions           |
 |-----------|----------------------|
-| Video     | mp4, avi, mov, webm  |
-| Audio     | mp3, wav, ogg, aac   |
+| Video     | mp4, avi, mov, webm, mkv, flv, wmv, 3gp, ogv, m4v  |
+| Audio     | mp3, wav, ogg, aac, flac, m4a, wma   |
 | Documents | pdf                  |
-| Image     | jpg, jpeg, png, gif, bmp, svg, webp |
+| Image     | jpg, jpeg, png, gif, bmp, svg, webp, tiff, ico |
 
 
 ## Changelog

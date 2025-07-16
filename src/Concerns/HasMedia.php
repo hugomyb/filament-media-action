@@ -13,6 +13,8 @@ trait HasMedia
 
     public ?string $mediaType;
 
+    public ?string $forcedMediaType = null;
+
     public ?string $mime = 'unknown';
 
     protected bool | Closure $hasAutoplay = false;
@@ -42,6 +44,13 @@ trait HasMedia
     public function media(string|\Closure|null $url): static
     {
         $this->media = $url;
+
+        return $this;
+    }
+
+    public function mediaType(string $type): static
+    {
+        $this->forcedMediaType = $type;
 
         return $this;
     }
@@ -123,6 +132,11 @@ trait HasMedia
 
     protected function detectMediaType(): string
     {
+        // If media type is forced, use it
+        if ($this->forcedMediaType) {
+            return $this->forcedMediaType;
+        }
+
         return $this->getMediaType($this->getMedia());
     }
 
@@ -147,9 +161,9 @@ trait HasMedia
 
         // Define media types and their extensions
         $mediaTypes = [
-            'audio' => ['mp3', 'wav', 'ogg', 'aac'],
-            'video' => ['mp4', 'avi', 'mov', 'webm'],
-            'image' => ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'],
+            'audio' => ['mp3', 'wav', 'ogg', 'aac', 'flac', 'm4a', 'wma'],
+            'video' => ['mp4', 'avi', 'mov', 'webm', 'mkv', 'flv', 'wmv', '3gp', 'ogv', 'm4v'],
+            'image' => ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'tiff', 'ico'],
             'pdf' => ['pdf'],
         ];
 
@@ -161,30 +175,43 @@ trait HasMedia
             }
         }
 
-        // If the extension is not found, use HTTP headers to detect the content type
-        $headers = @get_headers($url, 1);
+        // If the extension is not found, try to use HTTP headers to detect the content type
+        // This might fail for local URLs or when the server is not accessible
+        try {
+            $context = stream_context_create([
+                'http' => [
+                    'timeout' => 5, // 5 second timeout
+                    'method' => 'HEAD', // Only get headers, not the full content
+                ]
+            ]);
 
-        if (is_array($headers)) {
-            $headers = array_change_key_case($headers, CASE_LOWER);
+            $headers = @get_headers($url, 1, $context);
 
-            $rawType = $headers['content-type'] ?? null;
-            $contentType = is_array($rawType) ? reset($rawType) : $rawType;
+            if (is_array($headers)) {
+                $headers = array_change_key_case($headers, CASE_LOWER);
 
-            if ($contentType) {
-                $type = match (true) {
-                    str_contains($contentType, 'audio') => 'audio',
-                    str_contains($contentType, 'video') => 'video',
-                    str_contains($contentType, 'image') => 'image',
-                    str_contains($contentType, 'pdf') => 'pdf',
-                    default => null,
-                };
+                $rawType = $headers['content-type'] ?? null;
+                $contentType = is_array($rawType) ? reset($rawType) : $rawType;
 
-                if ($type !== null) {
-                    $this->mime = $contentType;
+                if ($contentType) {
+                    $type = match (true) {
+                        str_contains($contentType, 'audio') => 'audio',
+                        str_contains($contentType, 'video') => 'video',
+                        str_contains($contentType, 'image') => 'image',
+                        str_contains($contentType, 'pdf') => 'pdf',
+                        default => null,
+                    };
 
-                    return $type;
+                    if ($type !== null) {
+                        $this->mime = $contentType;
+
+                        return $type;
+                    }
                 }
             }
+        } catch (\Exception $e) {
+            // If headers detection fails, we'll fall back to unknown type
+            // This is common for local development URLs or when the server is not accessible
         }
 
         $this->mime = 'unknown';
