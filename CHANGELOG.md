@@ -2,6 +2,45 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v3.1.1.9 - 2025-07-16
+
+### Enhanced Video Support & Local Development Fixes
+
+#### 🚀 New Features
+
+##### Force Media Type Detection
+
+- New **mediaType()** method to override automatic media type detection
+- Perfect for local development URLs and edge cases where automatic detection fails
+
+```php
+MediaAction::make('video')
+    ->media('https://myapp.test/video.MOV')
+    ->mediaType('video') // Force video type
+
+```
+#### 🐛 Bug Fixes
+
+##### Fixed Local Video Loading Issues
+
+- Resolved: Videos from local storage URLs showing "Loading..." indefinitely
+- Fixed: Case-sensitive file extension detection (.MOV vs .mov)
+- Improved: Network timeout handling for local development domains
+
+##### Enhanced Media Type Detection
+
+- Added timeout protection (5 seconds) for HTTP header requests
+- Better error handling for inaccessible URLs
+- Graceful fallback when header detection fails
+
+#### 📈 Improvements
+
+##### Expanded Format Support
+
+- Video formats: Added support for mkv, flv, wmv, 3gp, ogv, m4v
+- Audio formats: Added support for flac, m4a, wma
+- Image formats: Added support for tiff, ico
+
 ## v3.1.1.8 - 2025-07-03
 
 ### What's Changed
