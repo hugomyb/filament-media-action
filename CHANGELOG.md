@@ -2,6 +2,18 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v4.0.0.0 - support Filament V4 - 2025-07-28
+
+### What's Changed
+
+* feat: add support for filament 4.x by @mansoorkhan96 in https://github.com/hugomyb/filament-media-action/pull/23
+
+### New Contributors
+
+* @mansoorkhan96 made their first contribution in https://github.com/hugomyb/filament-media-action/pull/23
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v3.1.1.9...v4.0.0.0
+
 ## v3.1.1.9 - 2025-07-16
 
 ### Enhanced Video Support & Local Development Fixes
@@ -17,6 +29,7 @@ All notable changes to `filament-media-action` will be documented in this file.
 MediaAction::make('video')
     ->media('https://myapp.test/video.MOV')
     ->mediaType('video') // Force video type
+
 
 ```
 #### 🐛 Bug Fixes
