@@ -23,7 +23,7 @@ The package automatically detects the media extension to display the correct pla
 You can install the package via composer:
 
 ```bash
-composer require hugomyb/filament-media-action
+composer require hugomyb/filament-media-action:^3.0
 ```
 
 Optionally, you can publish the view using
