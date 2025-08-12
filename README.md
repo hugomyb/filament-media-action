@@ -20,6 +20,13 @@ The package automatically detects the media extension to display the correct pla
 
 ## Installation
 
+> **Note for Filament v3 users:**  
+> If your project is running on **Filament v3**, please install the `3.x` version of this package:
+> ```bash
+> composer require hugomyb/filament-media-action:^3.0
+> ```  
+> For **Filament v4**, simply install the latest version (default branch `main`).
+
 You can install the package via composer:
 
 ```bash
@@ -139,7 +146,7 @@ MediaAction::make('media-url')
 
 #### Other options
 
-You can customize the modal as you wish in the same way as a classic action (see https://filamentphp.com/docs/3.x/actions/modals).
+You can customize the modal as you wish in the same way as a classic action (see https://filamentphp.com/docs/4.x/actions/modals).
 
 If there is an existing record, you can access it by passing a closure to `->media()` method.
 
