@@ -2,6 +2,62 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v4.1.0.0 - 2025-11-04
+
+### Release notes — Media type constants + mediaType() fix
+
+#### Highlights
+
+- New public constants for media types
+- Fix for infinite “loading” when forcing media type via mediaType()
+- More robust MIME handling in views
+- No breaking changes
+
+#### Added
+
+- Media type constants on MediaAction:
+  - TYPE_YOUTUBE, TYPE_AUDIO, TYPE_VIDEO, TYPE_IMAGE, TYPE_PDF, TYPE_UNKNOWN
+  
+- Recommended to use constants with mediaType() for clarity and safety
+- Strings remain supported for backward compatibility
+
+#### Fixed
+
+- Forcing the media type (e.g., ->mediaType('audio')) could leave the player stuck on “loading”:
+  - MIME is now determined when possible even if the type is forced
+  - The type attribute is omitted when MIME is unknown to avoid browser blocking
+  
+- Avoids evaluating closures that require Livewire context when a type is already forced
+
+#### Changed
+
+- Blade view comparisons now use constants (internal change, no user-facing impact)
+- README updated to recommend constant usage
+
+#### Compatibility / Migration
+
+- No breaking changes
+- Optional (recommended): replace string literals with constants
+  - Example: `->mediaType('audio')` → `->mediaType(MediaAction::TYPE_AUDIO)`
+  
+
+##### Example
+
+```php
+use Hugomyb\FilamentMediaAction\Actions\MediaAction;
+
+MediaAction::make('video')
+    ->media('https://myapp.test/video.MOV')
+    ->mediaType(MediaAction::TYPE_VIDEO);
+
+```
+#### Internal
+
+- Added a lightweight HasMedia marker trait and applied it on MediaAction
+- Added unit tests for constants and adjusted existing tests accordingly
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v4.0.0.0...v4.1.0.0
+
 ## v4.0.0.0 - support Filament V4 - 2025-07-28
 
 ### What's Changed
@@ -29,6 +85,7 @@ All notable changes to `filament-media-action` will be documented in this file.
 MediaAction::make('video')
     ->media('https://myapp.test/video.MOV')
     ->mediaType('video') // Force video type
+
 
 
 ```
