@@ -66,7 +66,7 @@
     </div>
 
     <div class="mediaContainer w-full flex flex-col justify-center items-center h-full" x-show="!loading">
-        @if ($mediaType === 'youtube')
+        @if ($mediaType === \Hugomyb\FilamentMediaAction\Actions\MediaAction::TYPE_YOUTUBE)
             @php
                 $youtubeId = '';
 
@@ -97,10 +97,11 @@
                 <p>Invalid YouTube URL.</p>
             @endif
 
-        @elseif ($mediaType === 'audio')
+        @elseif ($mediaType === \Hugomyb\FilamentMediaAction\Actions\MediaAction::TYPE_AUDIO)
             <audio
                     x-ref="mediaFrame"
                     class="rounded-lg w-full"
+                    style="width: 100%"
                     controls
                     @if($controlsList) controlsList="{{ $controlsList }}" @endif
                     @canplay="loading = false"
@@ -108,11 +109,11 @@
                     @play="loading = false"
                     {{ $preload ? '' : 'preload="none"' }}
             >
-                <source src="{{ $media }}" type="{{ $mime }}">
+                <source src="{{ $media }}" @if($mime && $mime !== 'unknown') type="{{ $mime }}" @endif>
                 Your browser does not support the audio element.
             </audio>
 
-        @elseif ($mediaType === 'video')
+        @elseif ($mediaType === \Hugomyb\FilamentMediaAction\Actions\MediaAction::TYPE_VIDEO)
             <video
                     x-ref="mediaFrame"
                     class="rounded-lg w-full"
@@ -124,16 +125,16 @@
                     @canplaythrough="loading = false"
                     {{ $preload ? '' : 'preload="none"' }}
             >
-                <source src="{{ $media }}" type="{{ $mime }}">
+                <source src="{{ $media }}" @if($mime && $mime !== 'unknown') type="{{ $mime }}" @endif>
                 Your browser does not support the video tag.
             </video>
 
-        @elseif ($mediaType === 'image')
+        @elseif ($mediaType === \Hugomyb\FilamentMediaAction\Actions\MediaAction::TYPE_IMAGE)
 
             <img x-ref="mediaFrame" class="rounded-lg" src="{{ $media }}" alt="Media Image"
                  style="max-width: 100%; height: auto;" @load="loading = false">
 
-        @elseif ($mediaType === 'pdf')
+        @elseif ($mediaType === \Hugomyb\FilamentMediaAction\Actions\MediaAction::TYPE_PDF)
 
             <iframe x-ref="mediaFrame" class="rounded-lg" style="min-height: 600px"
                     src="{{ $media }}" width="100%" height="100%"

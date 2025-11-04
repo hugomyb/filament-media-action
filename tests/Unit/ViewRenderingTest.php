@@ -10,11 +10,11 @@ it('has a valid media modal content view file', function () {
     $content = file_get_contents($viewPath);
 
     expect($content)->toContain('<div class="w-full flex flex-col justify-center items-center h-full"');
-    expect($content)->toContain('@if ($mediaType === \'youtube\')');
-    expect($content)->toContain('@elseif ($mediaType === \'audio\')');
-    expect($content)->toContain('@elseif ($mediaType === \'video\')');
-    expect($content)->toContain('@elseif ($mediaType === \'image\')');
-    expect($content)->toContain('@elseif ($mediaType === \'pdf\')');
+    expect($content)->toContain('@if ($mediaType === \\Hugomyb\\FilamentMediaAction\\Actions\\MediaAction::TYPE_YOUTUBE)');
+    expect($content)->toContain('@elseif ($mediaType === \\Hugomyb\\FilamentMediaAction\\Actions\\MediaAction::TYPE_AUDIO)');
+    expect($content)->toContain('@elseif ($mediaType === \\Hugomyb\\FilamentMediaAction\\Actions\\MediaAction::TYPE_VIDEO)');
+    expect($content)->toContain('@elseif ($mediaType === \\Hugomyb\\FilamentMediaAction\\Actions\\MediaAction::TYPE_IMAGE)');
+    expect($content)->toContain('@elseif ($mediaType === \\Hugomyb\\FilamentMediaAction\\Actions\\MediaAction::TYPE_PDF)');
 });
 
 it('can set media url', function () {

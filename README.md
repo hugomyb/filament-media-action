@@ -86,12 +86,14 @@ MediaAction::make('media-url')
 If the automatic media type detection fails (common with local development URLs or files without extensions), you can force the media type:
 
 ```php
+use Hugomyb\\FilamentMediaAction\\Actions\\MediaAction;
+
 MediaAction::make('video')
     ->media('https://myapp.test/video.MOV')
-    ->mediaType('video') // Force video type
+    ->mediaType(MediaAction::TYPE_VIDEO) // Force video type (preferred)
 ```
 
-Available media types: `'video'`, `'audio'`, `'image'`, `'pdf'`, `'youtube'`.
+Available media types (constants): `MediaAction::TYPE_VIDEO`, `MediaAction::TYPE_AUDIO`, `MediaAction::TYPE_IMAGE`, `MediaAction::TYPE_PDF`, `MediaAction::TYPE_YOUTUBE`. Strings remain supported for backward compatibility.
 
 #### Preload
 

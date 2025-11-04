@@ -4,11 +4,21 @@ namespace Hugomyb\FilamentMediaAction\Actions;
 
 use Closure;
 use Filament\Actions\Action;
+use Hugomyb\FilamentMediaAction\Concerns\HasMedia;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 
 class MediaAction extends Action
 {
+    use HasMedia;
+
+    public const TYPE_YOUTUBE = 'youtube';
+    public const TYPE_AUDIO   = 'audio';
+    public const TYPE_VIDEO   = 'video';
+    public const TYPE_IMAGE   = 'image';
+    public const TYPE_PDF     = 'pdf';
+    public const TYPE_UNKNOWN = 'unknown';
+
     public Closure|string|null $media;
 
     public ?string $mediaType;
@@ -132,8 +142,18 @@ class MediaAction extends Action
 
     protected function detectMediaType(): string
     {
-        // If media type is forced, use it
+        // If media type is forced, use it but still try to determine a suitable MIME
         if ($this->forcedMediaType) {
+            // Avoid evaluating closures (which may require Livewire context) when possible
+            $url = is_string($this->media) ? $this->media : null;
+            if ($url !== null) {
+                // This will set $this->mime when possible (based on extension or headers)
+                $this->getMediaType($url);
+            } else {
+                // Unknown if we cannot safely evaluate
+                $this->mime = 'unknown';
+            }
+
             return $this->forcedMediaType;
         }
 
@@ -144,7 +164,7 @@ class MediaAction extends Action
     {
         // Check if the URL is a YouTube link
         if (preg_match('/(youtube\.com|youtu\.be)/', $url)) {
-            return 'youtube';
+            return self::TYPE_YOUTUBE;
         }
 
         // Parse the URL to remove query parameters
@@ -161,10 +181,10 @@ class MediaAction extends Action
 
         // Define media types and their extensions
         $mediaTypes = [
-            'audio' => ['mp3', 'wav', 'ogg', 'aac', 'flac', 'm4a', 'wma'],
-            'video' => ['mp4', 'avi', 'mov', 'webm', 'mkv', 'flv', 'wmv', '3gp', 'ogv', 'm4v'],
-            'image' => ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'tiff', 'ico'],
-            'pdf' => ['pdf'],
+            self::TYPE_AUDIO => ['mp3', 'wav', 'ogg', 'aac', 'flac', 'm4a', 'wma'],
+            self::TYPE_VIDEO => ['mp4', 'avi', 'mov', 'webm', 'mkv', 'flv', 'wmv', '3gp', 'ogv', 'm4v'],
+            self::TYPE_IMAGE => ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'tiff', 'ico'],
+            self::TYPE_PDF   => ['pdf'],
         ];
 
         // Check if the extension matches any media type
@@ -196,12 +216,13 @@ class MediaAction extends Action
 
                 if ($contentType) {
                     $type = match (true) {
-                        str_contains($contentType, 'audio') => 'audio',
-                        str_contains($contentType, 'video') => 'video',
-                        str_contains($contentType, 'image') => 'image',
-                        str_contains($contentType, 'pdf') => 'pdf',
+                        str_contains($contentType, 'audio') => self::TYPE_AUDIO,
+                        str_contains($contentType, 'video') => self::TYPE_VIDEO,
+                        str_contains($contentType, 'image') => self::TYPE_IMAGE,
+                        str_contains($contentType, 'pdf') => self::TYPE_PDF,
                         default => null,
                     };
+
 
                     if ($type !== null) {
                         $this->mime = $contentType;
@@ -217,7 +238,7 @@ class MediaAction extends Action
 
         $this->mime = 'unknown';
 
-        return 'unknown';
+        return self::TYPE_UNKNOWN;
     }
 
     public function preload(?bool $preloadAuto = true): static
