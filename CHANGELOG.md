@@ -2,6 +2,18 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v4.1.0.1 - 2025-11-18
+
+### What's Changed
+
+* Add support to Spanish translations by @luisprmat in https://github.com/hugomyb/filament-media-action/pull/25
+
+### New Contributors
+
+* @luisprmat made their first contribution in https://github.com/hugomyb/filament-media-action/pull/25
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v4.1.0.0...v4.1.0.1
+
 ## v4.1.0.0 - 2025-11-04
 
 ### Release notes — Media type constants + mediaType() fix
@@ -16,18 +28,23 @@ All notable changes to `filament-media-action` will be documented in this file.
 #### Added
 
 - Media type constants on MediaAction:
+  
   - TYPE_YOUTUBE, TYPE_AUDIO, TYPE_VIDEO, TYPE_IMAGE, TYPE_PDF, TYPE_UNKNOWN
   
 - Recommended to use constants with mediaType() for clarity and safety
+  
 - Strings remain supported for backward compatibility
+  
 
 #### Fixed
 
 - Forcing the media type (e.g., ->mediaType('audio')) could leave the player stuck on “loading”:
+  
   - MIME is now determined when possible even if the type is forced
   - The type attribute is omitted when MIME is unknown to avoid browser blocking
   
 - Avoids evaluating closures that require Livewire context when a type is already forced
+  
 
 #### Changed
 
@@ -49,6 +66,7 @@ use Hugomyb\FilamentMediaAction\Actions\MediaAction;
 MediaAction::make('video')
     ->media('https://myapp.test/video.MOV')
     ->mediaType(MediaAction::TYPE_VIDEO);
+
 
 ```
 #### Internal
@@ -85,6 +103,7 @@ MediaAction::make('video')
 MediaAction::make('video')
     ->media('https://myapp.test/video.MOV')
     ->mediaType('video') // Force video type
+
 
 
 
