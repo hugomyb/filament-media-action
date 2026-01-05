@@ -2,6 +2,15 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v4.1.0.2 - 2026-01-05
+
+### Fixes
+
+- Stop media playback when closing the modal — audio/video are paused and reset
+- YouTube embeds are paused via enablejsapi=1
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v4.1.0.1...v4.1.0.2
+
 ## v4.1.0.1 - 2025-11-18
 
 ### What's Changed
@@ -68,6 +77,7 @@ MediaAction::make('video')
     ->mediaType(MediaAction::TYPE_VIDEO);
 
 
+
 ```
 #### Internal
 
@@ -103,6 +113,7 @@ MediaAction::make('video')
 MediaAction::make('video')
     ->media('https://myapp.test/video.MOV')
     ->mediaType('video') // Force video type
+
 
 
 
