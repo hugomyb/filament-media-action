@@ -55,9 +55,34 @@
 
             resetAutoplay() {
                 this.autoplayed = false;
+            },
+
+            // Pause/stop media when modal closes
+            stopMedia() {
+                const mediaElement = this.$refs.mediaFrame;
+                if (!mediaElement) return;
+
+                try {
+                    const tag = mediaElement.tagName;
+                    if (tag === 'AUDIO' || tag === 'VIDEO') {
+                        if (typeof mediaElement.pause === 'function') mediaElement.pause();
+                        // Reset the playback position to avoid audio continuing in background on some browsers
+                        if ('currentTime' in mediaElement) mediaElement.currentTime = 0;
+                    } else if (tag === 'IFRAME') {
+                        // Try to pause YouTube embeds via postMessage API (requires enablejsapi=1)
+                        mediaElement.contentWindow?.postMessage(JSON.stringify({
+                            event: 'command',
+                            func: 'pauseVideo',
+                            args: []
+                        }), '*');
+                    }
+                } catch (e) {
+                    // Swallow any errors from cross-origin iframes or unsupported operations
+                }
             }
         }"
      @open-modal.window="resetAutoplay"
+     @close-modal.window="stopMedia()"
 >
 
     <div class="flex h-full flex-col justify-center items-center" x-show="loading">
@@ -88,9 +113,10 @@
 
             @if ($youtubeId)
                 <iframe x-ref="mediaFrame" class="rounded-lg" width="100%"
-                        src="https://www.youtube.com/embed/{{ $youtubeId }}{{ $autoplay ? '?autoplay=1' : '' }}"
+                        src="https://www.youtube.com/embed/{{ $youtubeId }}?enablejsapi=1{{ $autoplay ? '&autoplay=1' : '' }}"
                         frameborder="0"
                         style="aspect-ratio: 16 / 9;"
+                        allow="autoplay; encrypted-media"
                         allowfullscreen
                 ></iframe>
             @else

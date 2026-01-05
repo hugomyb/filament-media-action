@@ -15,6 +15,12 @@ it('has a valid media modal content view file', function () {
     expect($content)->toContain('@elseif ($mediaType === \\Hugomyb\\FilamentMediaAction\\Actions\\MediaAction::TYPE_VIDEO)');
     expect($content)->toContain('@elseif ($mediaType === \\Hugomyb\\FilamentMediaAction\\Actions\\MediaAction::TYPE_IMAGE)');
     expect($content)->toContain('@elseif ($mediaType === \\Hugomyb\\FilamentMediaAction\\Actions\\MediaAction::TYPE_PDF)');
+
+        // New behavior: media should stop on modal close
+        expect($content)->toContain('@close-modal.window="stopMedia()"');
+
+        // YouTube embeds should enable JS API so we can pause on close
+        expect($content)->toContain('?enablejsapi=1');
 });
 
 it('can set media url', function () {
