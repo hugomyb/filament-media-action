@@ -2,6 +2,14 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v5.0.0.0 - 2026-01-26
+
+### What's Changed
+
+* Add support for Filament 5 and PHP 8.5 by @luisprmat in https://github.com/hugomyb/filament-media-action/pull/27
+
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v4.1.0.2...v5.0.0.0
+
 ## v4.1.0.2 - 2026-01-05
 
 ### Fixes
@@ -78,6 +86,7 @@ MediaAction::make('video')
 
 
 
+
 ```
 #### Internal
 
@@ -113,6 +122,7 @@ MediaAction::make('video')
 MediaAction::make('video')
     ->media('https://myapp.test/video.MOV')
     ->mediaType('video') // Force video type
+
 
 
 
