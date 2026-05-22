@@ -2,6 +2,31 @@
 
 All notable changes to `filament-media-action` will be documented in this file.
 
+## v5.0.0.1 - 2026-05-22
+
+### What's Changed
+
+#### Bug Fixes
+
+- Fixed `Call to a member function makeGetUtility() on null` error when using `$get` (or `$set`) as a parameter in the `->media()` closure when the action is not attached to a schema component (e.g. header actions, table row actions, page actions).
+
+#### Behavior
+
+- Inside a schema context (form, infolist, suffix/prefix action on a field): `$get` and `$set` work as expected.
+- Outside a schema context: `$get` and `$set` are now safely `null` instead of throwing — your closure can guard against it (e.g. `if ($get) { ... }`).
+
+#### Example
+
+```php
+MediaAction::make('media-url')
+    ->media(fn ($get, $record) => $get
+        ? $get('media_url')
+        : $record->url
+    )
+
+```
+**Full Changelog**: https://github.com/hugomyb/filament-media-action/compare/v5.0.0.0...v5.0.0.1
+
 ## v5.0.0.0 - 2026-01-26
 
 ### What's Changed
@@ -87,6 +112,7 @@ MediaAction::make('video')
 
 
 
+
 ```
 #### Internal
 
@@ -122,6 +148,7 @@ MediaAction::make('video')
 MediaAction::make('video')
     ->media('https://myapp.test/video.MOV')
     ->mediaType('video') // Force video type
+
 
 
 
