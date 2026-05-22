@@ -76,6 +76,18 @@ class MediaAction extends Action
         ]);
     }
 
+    protected function resolveDefaultClosureDependencyForEvaluationByName(string $parameterName): array
+    {
+        if (
+            in_array($parameterName, ['schemaGet', 'get', 'schemaSet', 'set'], true)
+            && $this->getSchemaComponent() === null
+        ) {
+            return [null];
+        }
+
+        return parent::resolveDefaultClosureDependencyForEvaluationByName($parameterName);
+    }
+
     public function autoplay(bool|\Closure $hasAutoplay = true): static
     {
         $this->hasAutoplay = $hasAutoplay;

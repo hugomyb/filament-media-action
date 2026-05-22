@@ -65,3 +65,10 @@ it('can set extra modal footer actions', function () {
 
     expect(method_exists($action, 'extraModalFooterActions'))->toBeTrue();
 });
+
+it('does not crash when $get is used outside a schema component', function () {
+    $action = MediaAction::make('test')
+        ->media(fn ($get) => $get === null ? 'https://example.com/video.mp4' : 'unexpected');
+
+    expect($action->getMedia())->toBe('https://example.com/video.mp4');
+});
